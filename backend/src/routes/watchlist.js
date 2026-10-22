@@ -9,7 +9,7 @@ const { validId } = require('../middleware/validate');
 
 router.use(authenticate);
 
-// Every query is scoped by req.user._id -> users can only see their own data
+
 router.get('/', async (req, res) => {
   const items = await Watchlist.find({ userId: req.user._id }).sort({ createdAt: -1 }).populate('productId').lean();
   const alerts = await PriceAlert.find({ userId: req.user._id }).populate('variantId', 'label attributes lowestTotal').lean();

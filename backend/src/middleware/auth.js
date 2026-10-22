@@ -11,7 +11,7 @@ async function authenticate(req, res, next) {
   } catch {
     throw new ApiError(401, 'Invalid or expired token');
   }
-  // Load from DB so deleted users / role changes take effect immediately
+  
   const user = await User.findById(payload.sub).select('name email role');
   if (!user) throw new ApiError(401, 'Invalid or expired token');
   req.user = user;

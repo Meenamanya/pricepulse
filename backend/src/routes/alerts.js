@@ -27,13 +27,13 @@ router.post('/', validate(S.alertCreate), async (req, res) => {
     throw new ApiError(409, 'You already have an alert for this variant. Update it instead.');
   }
   const alert = new PriceAlert({ userId: req.user._id, productId, variantId, targetPrice });
-  Object.assign(alert, evaluateAlert(alert, variant.lowestTotal)); // evaluate immediately
+  Object.assign(alert, evaluateAlert(alert, variant.lowestTotal)); 
   await alert.save();
   res.status(201).json({ alert });
 });
 
 router.put('/:id', validId('id'), validate(S.alertUpdate), async (req, res) => {
-  const alert = await PriceAlert.findOne({ _id: req.params.id, userId: req.user._id }); // ownership in the query
+  const alert = await PriceAlert.findOne({ _id: req.params.id, userId: req.user._id }); 
   if (!alert) throw new ApiError(404, 'Alert not found');
   const variant = await Variant.findById(alert.variantId);
   alert.targetPrice = req.valid.body.targetPrice;

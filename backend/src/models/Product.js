@@ -9,7 +9,7 @@ const productSchema = new Schema(
     description: { type: String, default: '' },
     imageUrl: { type: String, default: '' },
     isActive: { type: Boolean, default: true },
-    // Denormalised for server-side price filter/sort. Maintained by services/catalog.js
+    
     startingPrice: { type: Number, default: null },
     hasPrice: { type: Boolean, default: false },
     availableOfferCount: { type: Number, default: 0 },

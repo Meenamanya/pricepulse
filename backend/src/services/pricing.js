@@ -1,4 +1,4 @@
-// Pure comparison logic (no DB access) so it is easy to unit-test.
+
 const DATA_DISCLAIMER =
   'Prices shown are seeded sample data for demonstration. They are not live market prices.';
 
@@ -8,7 +8,7 @@ const isPurchasable = (o) => o.isActive !== false && o.availability === 'in_stoc
 
 function annotate(offer) {
   const o = plain(offer);
-  const shipping = o.shipping === undefined ? null : o.shipping; // unknown stays null
+  const shipping = o.shipping === undefined ? null : o.shipping; 
   const totalCost = shipping === null ? null : round2(o.price + shipping);
   const purchasable = isPurchasable(o);
   let status;

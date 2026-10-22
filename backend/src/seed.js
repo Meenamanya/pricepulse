@@ -1,4 +1,3 @@
-// Seeds SIMULATED demo data. Run: npm run seed   (WIPES the pricepulse collections)
 require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
@@ -20,7 +19,6 @@ const MERCHANTS = {
   reliance: { name: 'Reliance Digital', domain: 'reliancedigital.in', url: (q) => `https://www.reliancedigital.in/search?q=${q}` },
 };
 
-// offers: merchant -> [price, shipping (null = unknown), availability?]
 const CATALOG = [
   { brand: 'Samsung', model: 'Galaxy S24 FE', category: 'smartphones', variants: [
     { a: { ram: '8GB', storage: '256GB', color: 'Blue' }, offers: { amazon: [28499, 500], flipkart: [29000, 0], croma: [28800, null] } }, // brief's scenario

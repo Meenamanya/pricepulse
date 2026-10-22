@@ -9,7 +9,6 @@ const ATTRS = ['ram', 'storage', 'color', 'region'];
 const num = (s) => (s === '' || s === null || s === undefined ? null : Number(s));
 const bad = (n) => n !== null && (Number.isNaN(n) || n < 0);
 
-// run a mutation and show the outcome
 function useAction() {
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -196,7 +195,7 @@ function Manage({ categories }) {
   useEffect(() => {
     const vs = detail.data?.variants || [];
     if (vs.length && !vs.some((v) => v._id === vid)) setVid(vs[0]._id);
-  }, [detail.data]); // eslint-disable-line
+  }, [detail.data]); 
 
   if (products.loading && !products.data) return <Loading />;
   if (products.error) return <ErrorBox message={products.error.message} onRetry={products.reload} />;

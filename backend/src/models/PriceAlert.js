@@ -12,7 +12,7 @@ const alertSchema = new Schema(
   },
   { timestamps: true }
 );
-// one alert per user per variant (update it instead of duplicating)
+
 alertSchema.index({ userId: 1, variantId: 1 }, { unique: true });
 alertSchema.index({ variantId: 1 });
 module.exports = model('PriceAlert', alertSchema);

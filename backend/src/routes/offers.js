@@ -17,8 +17,8 @@ router.post('/merchants', ...admin, validate(S.merchantCreate), async (req, res)
   res.status(201).json({ merchant: await Merchant.create(req.valid.body) });
 });
 
-// Add an offer: variant must belong to the product, URL must match merchant domain,
-// unique (variant, merchant) index rejects duplicates with 409.
+
+
 router.post('/products/:id/offers', ...admin, validId('id'), validate(S.offerCreate), async (req, res) => {
   const b = req.valid.body;
   const product = await Product.findById(req.params.id);
@@ -36,7 +36,7 @@ router.post('/products/:id/offers', ...admin, validId('id'), validate(S.offerCre
     if (e.code === 11000) throw new ApiError(409, 'This merchant already has an offer for this variant. Update it instead.');
     throw e;
   }
-  await appendHistory(offer, offer.lastUpdatedAt); // first history record
+  await appendHistory(offer, offer.lastUpdatedAt); 
   await refreshVariant(offer.variantId);
   res.status(201).json({ offer });
 });
@@ -53,8 +53,8 @@ router.put('/offers/:id', ...admin, validId('id'), validate(S.offerUpdate), asyn
   res.json({ offer });
 });
 
-// Record a price. Without recordedAt (or with a date >= the offer's latest update)
-// it becomes the offer's current state. An older date is a back-fill: history only.
+
+
 router.post('/offers/:id/price-history', ...admin, validId('id'), validate(S.historyCreate), async (req, res) => {
   const offer = await MerchantOffer.findById(req.params.id);
   if (!offer) throw new ApiError(404, 'Offer not found');

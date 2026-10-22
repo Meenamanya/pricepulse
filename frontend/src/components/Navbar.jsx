@@ -9,7 +9,7 @@ export default function Navbar() {
   const loc = useLocation();
   const [reached, setReached] = useState(0);
 
-  // In-app notification: number of target prices reached
+  
   useEffect(() => {
     if (!user) { setReached(0); return; }
     api('/alerts').then((r) => setReached(r.data.filter((a) => a.status === 'reached').length)).catch(() => {});

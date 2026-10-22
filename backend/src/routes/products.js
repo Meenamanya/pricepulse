@@ -11,18 +11,18 @@ const { loadOffers } = require('../services/catalog');
 const { compareOffers, summarizeHistory, DATA_DISCLAIMER } = require('../services/pricing');
 
 const SORTS = {
-  price_asc: { hasPrice: -1, startingPrice: 1, _id: 1 }, // products without a price always last
+  price_asc: { hasPrice: -1, startingPrice: 1, _id: 1 }, 
   price_desc: { hasPrice: -1, startingPrice: -1, _id: 1 },
   newest: { createdAt: -1, _id: 1 },
 };
 
-// ---- filter options for the UI ----
+
 router.get('/meta/filters', async (req, res) => {
   const brands = await Product.distinct('brand', { isActive: true });
   res.json({ categories: Product.CATEGORIES, brands: brands.sort() });
 });
 
-// ---- list / search / filter / sort / paginate (all server-side) ----
+
 router.get('/', validate(S.productQuery, 'query'), async (req, res) => {
   const { q, category, brand, minPrice, maxPrice, sort, page, limit } = req.valid.query;
   const f = { isActive: true };
@@ -63,7 +63,7 @@ router.get('/:id', validId('id'), async (req, res) => {
   res.json({ product, variants });
 });
 
-// ---- comparison (offers of ONE variant only) ----
+
 router.get('/:id/compare', validId('id'), validate(S.compareQuery, 'query'), async (req, res) => {
   const product = await activeProduct(req.params.id);
   const variant = await pickVariant(product, req.valid.query.variantId);
@@ -79,7 +79,7 @@ router.get('/:id/offers', validId('id'), validate(S.compareQuery, 'query'), asyn
   res.json({ variantId: variant._id, offers: result.offers });
 });
 
-// ---- price history: stored records + computed summaries ----
+
 router.get('/:id/price-history', validId('id'), validate(S.historyQuery, 'query'), async (req, res) => {
   const product = await activeProduct(req.params.id);
   const { offerId, variantId } = req.valid.query;
@@ -102,7 +102,7 @@ router.get('/:id/price-history', validId('id'), validate(S.historyQuery, 'query'
   res.json({ series, disclaimer: DATA_DISCLAIMER });
 });
 
-// ---- admin: create / update products and variants ----
+
 router.post('/', authenticate, requireAdmin, validate(S.productCreate), async (req, res) => {
   const { variants, ...data } = req.valid.body;
   const skus = variants.map((v) => buildSku(data.brand, data.model, v.attributes));
@@ -111,7 +111,7 @@ router.post('/', authenticate, requireAdmin, validate(S.productCreate), async (r
   try {
     await Variant.insertMany(variants.map((v, i) => ({ productId: product._id, sku: skus[i], label: v.label || '', attributes: v.attributes })));
   } catch (e) {
-    await Product.deleteOne({ _id: product._id }); // roll back
+    await Product.deleteOne({ _id: product._id }); 
     throw e;
   }
   res.status(201).json({ product, variants: await Variant.find({ productId: product._id }) });

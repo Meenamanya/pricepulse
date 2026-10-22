@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit');
 const { notFound, errorHandler } = require('./middleware/error');
 
 const app = express();
-app.set('trust proxy', 1); // behind Render's proxy
+app.set('trust proxy', 1); 
 app.use(helmet());
 const origins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map((s) => s.trim());
 app.use(cors({ origin: origins }));

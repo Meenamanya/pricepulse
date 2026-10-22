@@ -18,7 +18,7 @@ router.get('/analytics', async (req, res) => {
       PriceAlert.countDocuments({ status: 'reached' }),
     ]);
 
-  // Largest spread between merchants within the same variant (comparable offers only)
+  
   const spreads = await MerchantOffer.aggregate([
     { $match: { isActive: true, availability: 'in_stock', shipping: { $ne: null } } },
     { $addFields: { total: { $add: ['$price', '$shipping'] } } },

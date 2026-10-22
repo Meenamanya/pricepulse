@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-// Append-only: the app never updates or deletes these documents.
+
 const historySchema = new Schema({
   offerId: { type: Schema.Types.ObjectId, ref: 'MerchantOffer', required: true },
   variantId: { type: Schema.Types.ObjectId, ref: 'Variant', required: true },
